@@ -1,0 +1,49 @@
+name: Build and Push
+
+on:
+  push:
+    branches:
+      - master # אם הענף הראשי שלך נקרא main, שנה את זה ל-main
+
+env:
+  APP_VERSION: v1.0.${{ github.run_number }}
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-latest # השרת הזמני של GitHub שיריץ את האוטומציה
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 # עדכנו ל-Java 17!
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: mvn clean install -DskipTests # מומלץ להוסיף skipTests עד שיהיו טסטים אמיתיים בקוד
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # עדכנו את השם ל-online-bookstore כדי שיתאים למה שעשינו
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/online-bookstore:${{ env.APP_VERSION }}
