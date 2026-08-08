@@ -32,12 +32,12 @@ jobs:
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./Online-bookstore
+          file: ./Online-bookstore/Dockerfile
           push: true
           tags: yonatanovadia/online-bookstore:backend-latest
 
- # עבודה 2: פרונט-אנד
+  # עבודה 2: פרונט-אנד
   frontend:
     runs-on: ubuntu-latest
     steps:
