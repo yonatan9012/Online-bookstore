@@ -54,6 +54,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./Online-bookstore
-          file: ./Dockerfile.client
+          file: ./Online-bookstore/client.Dockerfile 
           push: true
           tags: yonatanovadia/online-bookstore:frontend-latest
