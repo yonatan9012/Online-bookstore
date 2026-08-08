@@ -20,6 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and Test with Maven
+        working-directory: Online-bookstore
         run: mvn clean install
 
       - name: Login to Docker Hub
