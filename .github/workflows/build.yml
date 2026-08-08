@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  # עבודה 1: באק-אנד
+  # עבודה 1: באק-אנד (כבר מסודר)
   backend:
     runs-on: ubuntu-latest
     steps:
@@ -37,7 +37,7 @@ jobs:
           push: true
           tags: yonatanovadia/online-bookstore:backend-latest
 
-  # עבודה 2: פרונט-אנד
+  # עבודה 2: פרונט-אנד (התיקון כאן למטה)
   frontend:
     runs-on: ubuntu-latest
     steps:
@@ -54,6 +54,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./Online-bookstore
-          file: ./Online-bookstore/Dockerfile.client
+          file: ./Dockerfile.client
           push: true
           tags: yonatanovadia/online-bookstore:frontend-latest
